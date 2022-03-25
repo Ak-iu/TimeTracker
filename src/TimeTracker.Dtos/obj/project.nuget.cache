@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NVmEIDwEhGPgLvbdjMzuyhqk7TjqrKDOs2/Il1/8EVJ6DA1jCAzDU9MDZis95pDnarGLGHDQXVV0R+GrzsnL1A==",
+  "dgSpecHash": "TOpwgGQrtIaym3Y+0OGkpZZSkVFs/0wInz7/4L0LXBlPKB33ZReadVdIK/1XaSvzXtHjE3cpRuB2YNf3JDCTbQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
+  "projectFilePath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Akiura\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Akiura\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",

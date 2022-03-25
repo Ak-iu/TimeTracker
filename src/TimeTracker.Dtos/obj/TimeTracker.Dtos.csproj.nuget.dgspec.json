@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj": {}
+    "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj": {
+    "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
+        "projectUniqueName": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
         "projectName": "TimeTracker.Dtos",
-        "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
+        "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\TimeTracker.Dtos.csproj",
         "packagesPath": "C:\\Users\\Akiura\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Dtos\\obj\\",
+        "outputPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Dtos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Akiura\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/kD+xACDQpvvDU5a4j3EqGVXt0Y3tyMvG7mFJ460TZ0FrOBVaCGQtVRFktFbnEyR+V0f82uhpTbm8c3jnIHHMg==",
+  "dgSpecHash": "Jz7+ogfpN/wqL1cx0VAEc+dauSuDEdFJ538c6vJ6BmlNaodXgu+wFBhvDg1GTyMnmzo+8pL2Y0HckrfTMHSFfQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
+  "projectFilePath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Akiura\\.nuget\\packages\\microcharts.forms\\1.0.0-preview1\\microcharts.forms.1.0.0-preview1.nupkg.sha512",
     "C:\\Users\\Akiura\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",

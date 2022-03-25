@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UwdGKZTBvaC5hAjgGucAtMQi7s0r4ezyn0/l/jZsxA21mXYeY0/tTQO9PWRJKVo7mfIy8uZnM7srw23rqA8Baw==",
+  "dgSpecHash": "QN0igUb8otyulCIStKpOAms6iw8Yx0vuheoAGtnk+hPiiUjv/8K2s8OsK23guQs56NmusIEdWOINCjR4mebf+A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
+  "projectFilePath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Akiura\\.nuget\\packages\\microcharts.forms\\1.0.0-preview1\\microcharts.forms.1.0.0-preview1.nupkg.sha512",
     "C:\\Users\\Akiura\\.nuget\\packages\\microcharts.ios\\1.0.0-preview1\\microcharts.ios.1.0.0-preview1.nupkg.sha512",

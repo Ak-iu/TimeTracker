@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj": {}
+    "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj": {
+    "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj",
+        "projectUniqueName": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj",
         "projectName": "TimeTracker.Apps.Droid",
-        "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj",
+        "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.Droid\\TimeTracker.Apps.Droid.csproj",
         "packagesPath": "C:\\Users\\Akiura\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.Droid\\obj\\",
+        "outputPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.Droid\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
@@ -28,8 +28,8 @@
         "frameworks": {
           "monoandroid11.0": {
             "projectReferences": {
-              "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
-                "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj"
+              "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
+                "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj"
               }
             }
           }
@@ -62,14 +62,14 @@
         }
       }
     },
-    "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
+    "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
+        "projectUniqueName": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
         "projectName": "TimeTracker.Apps",
-        "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
+        "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj",
         "packagesPath": "C:\\Users\\Akiura\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\obj\\",
+        "outputPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Akiura\\AppData\\Roaming\\NuGet\\NuGet.Config",

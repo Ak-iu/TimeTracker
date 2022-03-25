@@ -1690,11 +1690,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
       "projectName": "TimeTracker.Apps.iOS",
-      "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
+      "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.iOS\\TimeTracker.Apps.iOS.csproj",
       "packagesPath": "C:\\Users\\Akiura\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps.iOS\\obj\\",
+      "outputPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -1711,8 +1711,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
-              "projectPath": "C:\\Users\\Akiura\\Desktop\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj"
+            "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj": {
+              "projectPath": "C:\\Users\\Akiura\\IdeaProjects\\TimeTracker\\project\\src\\TimeTracker.Apps\\TimeTracker.Apps.csproj"
             }
           }
         }
