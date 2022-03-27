@@ -11,12 +11,13 @@ using Xamarin.Forms;
 using System;
 using Storm.Mvvm;
 using Storm.Mvvm.Services;
+using TimeTracker.Apps.Api;
 using Xamarin.Forms;
 
 namespace TimeTracker.Apps.ViewModels
 {
     public class LoginViewModel : ViewModelBase
-    {
+    { 
         public ICommand _loginCommand;
         public ICommand _registerCommand;
 
@@ -83,31 +84,28 @@ namespace TimeTracker.Apps.ViewModels
 
         private async void LoginAction(object o)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://timetracker.julienmialon.ovh");
-
-            JObject jsonData = new JObject(
-                new JProperty("login", Email),
-                new JProperty("password", Password),
-                new JProperty("client_id", "MOBILE"),
-                new JProperty("client_secret", "COURS"));
-            var content = new StringContent(jsonData.ToString(), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync("api/v1/login", content);
-
+            Authentication authentication = new Authentication();
+            HttpResponseMessage response = await authentication.Login(Email,Password);
+        
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
                 if ((bool) json.SelectToken("is_success") == true)
                 {
-                    String accessToken = json.SelectToken("data")?.SelectToken("acces_token")?.ToString();
+                    String accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
                     String refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
 
                     ErrorCode = "";
                     Infos = "Connected.";
+                    
+                    // go to Main page
+                    INavigationService navigationService = DependencyService.Get<INavigationService>();
+                    await navigationService.PushAsync(new MainPage(accessToken, refreshToken));
+
                 }
                 else if ((bool) json.SelectToken("is_success") == false)
                 {
-                    ErrorCode = json.SelectToken("error_code").ToString();
+                    ErrorCode = json.SelectToken("error_code")?.ToString();
                     Infos = "";
                 }
             }
