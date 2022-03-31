@@ -59,12 +59,12 @@ namespace TimeTracker.Apps.ViewModels
         public async Task GetUserInfos()
         {
             User user = new User();
-            HttpResponseMessage response = user.Me(accessToken).Result;
+            
+            HttpResponseMessage response = await user.Me(accessToken);
 
             if (response.IsSuccessStatusCode)
             {
-              Debug.WriteLine("its work");
-              JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+                JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
               if ((bool) json.SelectToken("is_success") == true)
               {
                   _email = json.SelectToken("data")?.SelectToken("email")?.ToString();
@@ -74,7 +74,7 @@ namespace TimeTracker.Apps.ViewModels
             }
             else
             {
-                Debug.WriteLine("it doesnt work");
+                Debug.WriteLine("Failed to get Profile");
             }
         }
     }

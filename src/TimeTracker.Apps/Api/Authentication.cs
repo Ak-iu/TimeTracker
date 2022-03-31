@@ -23,6 +23,8 @@ namespace TimeTracker.Apps.Api
             var content = new StringContent(jsonData.ToString(), Encoding.UTF8, "application/json");
             
             
+            
+            
             return await client.PostAsync("api/v1/login", content);
         }
         

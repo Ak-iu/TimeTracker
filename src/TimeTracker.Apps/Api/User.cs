@@ -14,10 +14,11 @@ namespace TimeTracker.Apps.Api
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://timetracker.julienmialon.ovh/api/v1/me");
             Debug.WriteLine(accessToken);
+
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            Debug.Write(request.ToString());
+
             return await client.SendAsync(request);
-     
         }
-            
     }
 }
