@@ -34,16 +34,19 @@ namespace TimeTracker.Apps.ViewModels
         public string Email
         {
             get => _email;
+            set => SetProperty(ref _email, value);
         }
 
         public string FirstName
         {
             get => _firstName;
+            set => SetProperty(ref _firstName, value);
         }
 
         public string LastName
         {
             get => _lastName;
+            set => SetProperty(ref _lastName, value);
         }
 
         public ICommand SetPassword
@@ -67,9 +70,9 @@ namespace TimeTracker.Apps.ViewModels
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
               if ((bool) json.SelectToken("is_success") == true)
               {
-                  _email = json.SelectToken("data")?.SelectToken("email")?.ToString();
-                  _firstName = json.SelectToken("data")?.SelectToken("first_name")?.ToString();
-                  _lastName = json.SelectToken("data")?.SelectToken("last_name")?.ToString();
+                  Email = json.SelectToken("data")?.SelectToken("email")?.ToString();
+                  FirstName = json.SelectToken("data")?.SelectToken("first_name")?.ToString();
+                  LastName = json.SelectToken("data")?.SelectToken("last_name")?.ToString();
               }
             }
             else

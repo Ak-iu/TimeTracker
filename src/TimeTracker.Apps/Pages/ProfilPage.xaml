@@ -5,21 +5,59 @@
              x:Class="TimeTracker.Apps.Pages.ProfilPage">
     <ContentPage.Content>
         <StackLayout>
-            
-            <Label Text="Email:"/>
-            <Label Text="{Binding Email}"/>
-            
-            <Label Text="First Name:"/>
-            <Label Text="{Binding FirstName}"/>
-            
-            <Label Text="Last Name:"/>
-            <Label Text="{Binding LastName}"/>
+
+            <Grid Margin="20">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                
+                <Label Grid.Column="0" Grid.Row="0"
+                       VerticalTextAlignment="Center"
+                       Text="Email:" />
+                <Label Grid.Column="1" Grid.Row="0"
+                       VerticalTextAlignment="Center"
+                       Text="{Binding Email}" />
+                <Button Grid.Column="2" Grid.Row="0"
+                        Command="{Binding SetEmailCommand}"
+                        Text="Edit"/>
+
+                <Label Grid.Column="0" Grid.Row="1"
+                       VerticalTextAlignment="Center"
+                       Text="First Name:" />
+                <Label Grid.Column="1" Grid.Row="1"
+                       VerticalTextAlignment="Center"
+                       Text="{Binding FirstName}" />
+                <Button Grid.Column="2" Grid.Row="1"
+                        Command="{Binding SetFirstNameCommand}"
+                        Text="Edit"/>
+
+                <Label Grid.Column="0" Grid.Row="2"
+                       VerticalTextAlignment="Center"
+                       Text="Last Name:" />
+                <Label Grid.Column="1" Grid.Row="2"
+                       VerticalTextAlignment="Center"
+                       Text="{Binding LastName}" />
+                <Button Grid.Column="2" Grid.Row="2"
+                        Command="{Binding SetLastNameCommand}"
+                        Text="Edit"/>
+            </Grid>
+        
             
             <Button
                 Text="Change Password"
-                Command="{Binding SetPasswordCommand}"/>
-            
-            
+                Command="{Binding SetPasswordCommand}"
+                Margin="50,0,50,0"/>
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
