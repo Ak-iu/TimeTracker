@@ -21,7 +21,7 @@ namespace TimeTracker.Apps.ViewModels
         public ICommand _loginCommand;
         public ICommand _registerCommand;
 
-        public String _email = "akiura";
+        public String _email = "akiura1";
         public String _firstName;
         public String _lastName;
         public String _password ="akiura";
@@ -118,7 +118,7 @@ namespace TimeTracker.Apps.ViewModels
             
         }
 
-        private async void RegisterAction(object o)
+        private async void RegisterAction()
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://timetracker.julienmialon.ovh");
@@ -140,7 +140,7 @@ namespace TimeTracker.Apps.ViewModels
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
                 if ((bool) json.SelectToken("is_success") == true)
                 {
-                    String accessToken = json.SelectToken("data")?.SelectToken("acces_token")?.ToString();
+                    String accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
                     String refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
 
                     ErrorCode = "";
@@ -148,7 +148,7 @@ namespace TimeTracker.Apps.ViewModels
                 }
                 else if ((bool) json.SelectToken("is_success") == false)
                 {
-                    ErrorCode = json.SelectToken("error_code").ToString();
+                    ErrorCode = json.SelectToken("error_code")?.ToString();
                     Infos = "";
                 }
             }

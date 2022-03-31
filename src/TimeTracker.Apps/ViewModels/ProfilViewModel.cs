@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
@@ -13,6 +15,9 @@ namespace TimeTracker.Apps.ViewModels
 {
     public class ProfilViewModel : ViewModelBase
     {
+        private User user = new User();
+        private Authentication authentication = new Authentication();
+
         private string accessToken;
         private string refreshToken;
 
@@ -20,7 +25,13 @@ namespace TimeTracker.Apps.ViewModels
         private string _firstName;
         private string _lastName;
 
+        private ICommand _setEmail;
+        private ICommand _setFirstName;
+        private ICommand _setLastName;
         private ICommand _setPassword;
+        
+        public String _error_code;
+        public String _infos;
 
         public ProfilViewModel(string _accessToken, string _refreshToken)
         {
@@ -28,9 +39,23 @@ namespace TimeTracker.Apps.ViewModels
             refreshToken = _refreshToken;
 
             GetUserInfos();
+            _setEmail = new Command(SetEmailAction);
+            _setFirstName = new Command(SetFirstNameAction);
+            _setLastName = new Command(SetLastNameAction);
             _setPassword = new Command(SetPasswordAction);
         }
-        
+        public String ErrorCode
+        {
+            get => _error_code;
+            set => SetProperty(ref _error_code, value);
+        }
+
+        public String Infos
+        {
+            get => _infos;
+            set => SetProperty(ref _infos, value);
+        }
+
         public string Email
         {
             get => _email;
@@ -49,35 +74,91 @@ namespace TimeTracker.Apps.ViewModels
             set => SetProperty(ref _lastName, value);
         }
 
-        public ICommand SetPassword
+        public ICommand SetEmailCommand
+        {
+            get => _setEmail;
+        }
+
+        public ICommand SetFirstNameCommand
+        {
+            get => _setFirstName;
+        }
+
+        public ICommand SetLastNameCommand
+        {
+            get => _setLastName;
+        }
+
+        public ICommand SetPasswordCommand
         {
             get => _setPassword;
         }
 
+        private async void SetEmailAction(object o)
+        {
+            string newEmail = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new email address:");
+            await user.Me(accessToken, newEmail, FirstName, LastName);
+            await UpdateTokens(await authentication.Refresh(refreshToken));
+            await GetUserInfos();
+        }
+
+        private async void SetFirstNameAction()
+        {
+            string newFirstName = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new first name address:");
+            await user.Me(accessToken, Email, newFirstName, LastName);
+            await UpdateTokens(await authentication.Refresh(refreshToken));
+            await GetUserInfos();
+        }
+
+        private async void SetLastNameAction()
+        {
+            string newLastName = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new last name address:");
+            await user.Me(accessToken, Email, FirstName, newLastName);
+            await UpdateTokens(await authentication.Refresh(refreshToken));
+            await GetUserInfos();
+        }
+
         private void SetPasswordAction()
         {
-            throw new System.NotImplementedException();
         }
 
         public async Task GetUserInfos()
         {
-            User user = new User();
-            
             HttpResponseMessage response = await user.Me(accessToken);
-
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
-              if ((bool) json.SelectToken("is_success") == true)
-              {
-                  Email = json.SelectToken("data")?.SelectToken("email")?.ToString();
-                  FirstName = json.SelectToken("data")?.SelectToken("first_name")?.ToString();
-                  LastName = json.SelectToken("data")?.SelectToken("last_name")?.ToString();
-              }
+                if ((bool) json.SelectToken("is_success") == true)
+                {
+                    Email = json.SelectToken("data")?.SelectToken("email")?.ToString();
+                    FirstName = json.SelectToken("data")?.SelectToken("first_name")?.ToString();
+                    LastName = json.SelectToken("data")?.SelectToken("last_name")?.ToString();
+                }
             }
             else
             {
-                Debug.WriteLine("Failed to get Profile");
+                ErrorCode = response.StatusCode.ToString();
+            }
+        }
+
+        public async Task UpdateTokens(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+                
+                if ((bool) json.SelectToken("is_success"))
+                {
+                    accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
+                    refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
+                    ErrorCode = "";
+                    Infos = "User informations has been modified.";
+                }
+            }
+            else
+            {
+                ErrorCode = response.StatusCode.ToString();
+                Infos = "";
             }
         }
     }

@@ -56,6 +56,19 @@
                 Text="Change Password"
                 Command="{Binding SetPasswordCommand}"
                 Margin="50,0,50,0"/>
+            
+            
+            
+            
+            
+            <Label Text="{Binding ErrorCode}"
+                   TextColor="DarkRed"
+                   FontAttributes="Italic" FontSize="Medium"
+                   Margin="50,0,50,10"/>
+            <Label Text="{Binding Infos}"
+                   TextColor="DarkGreen"
+                   FontAttributes="Italic" FontSize="Medium"
+                   Margin="50,0,50,10"/>
 
 
         </StackLayout>
