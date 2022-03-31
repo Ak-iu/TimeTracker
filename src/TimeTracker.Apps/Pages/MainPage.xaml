@@ -6,6 +6,9 @@
 
     <StackLayout>
         
+        
+        <Button Text="Profil"
+                Command="{Binding ProfilCommand}"/>
       
         
         
