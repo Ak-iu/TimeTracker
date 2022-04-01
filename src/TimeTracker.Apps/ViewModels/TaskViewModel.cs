@@ -45,8 +45,8 @@ namespace TimeTracker.Apps.ViewModels
         public async void SelectAction(Tache tache)
         {
             Console.WriteLine("tache selectionne " + tache.Nom);
-            await Application.Current.MainPage.DisplayAlert("Timer","Timer is on the task :" + tache.Nom,"OK");
-            //TODO start timer here
+            await Application.Current.MainPage.DisplayAlert("Timer","Timer is on the task : " + tache.Nom,"OK");
+            //TODO démarrer le timer ici + ajouté le temps depuis l'ouverture de l'app
         }
 
         public async void DeleteAction(Tache tache)
