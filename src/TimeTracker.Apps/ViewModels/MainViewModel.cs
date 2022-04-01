@@ -26,28 +26,16 @@ namespace TimeTracker.Apps.ViewModels
         private string refreshToken;
 
         private ObservableCollection<Projet> _projets;
-        
-
 
         public ObservableCollection<Projet> Projets
         {
             get => _projets;
             set => SetProperty(ref _projets, value);
         }
+        public ICommand ProfilCommand { get; set; }
 
-        public ICommand ProfilCommand
-        {
-            get;
-            set;
-        }
+        public ICommand AddCommand { get; set; }
 
-        public ICommand AddCommand
-        {
-            get;
-            set;
-        }
-
-        
 
         public MainViewModel(string _accessToken, string _refreshToken)
         {
@@ -65,6 +53,7 @@ namespace TimeTracker.Apps.ViewModels
             INavigationService navigationService = DependencyService.Get<INavigationService>();
             navigationService.PushAsync(new ProfilPage(accessToken, refreshToken));
         }
+
         private async void AddProjectAction()
         {
             string name =
@@ -79,8 +68,8 @@ namespace TimeTracker.Apps.ViewModels
                 GetProjects();
             }
         }
-        
-        
+
+
         private async void DeleteAction(Projet projet)
         {
             Console.WriteLine("delete " + projet.Nom);
@@ -88,22 +77,15 @@ namespace TimeTracker.Apps.ViewModels
             await UpdateTokens(await authentication.Refresh(refreshToken));
             GetProjects();
         }
-        private void AddTacheAction(Projet obj)
-        {
-           
-        }
 
         private void SelectAction(Projet obj)
         {
             INavigationService navigationService = DependencyService.Get<INavigationService>();
-            navigationService.PushAsync(new TaskPage(accessToken,refreshToken,obj) );
+            navigationService.PushAsync(new TaskPage(accessToken, refreshToken, obj));
         }
         
-        
-        
-        
         private async void GetProjects()
-        {   
+        {
             Projets.Clear();
             HttpResponseMessage response = await projects.getProjects(accessToken);
             if (response != null && response.IsSuccessStatusCode)
@@ -133,11 +115,10 @@ namespace TimeTracker.Apps.ViewModels
             }
         }
 
-        private Projet CreateProject(string id,string name,string desc)
+        private Projet CreateProject(string id, string name, string desc)
         {
             return new Projet(
                 new Command<Projet>(DeleteAction),
-                new Command<Projet>(AddTacheAction),
                 new Command<Projet>(SelectAction)
             )
             {
@@ -146,7 +127,7 @@ namespace TimeTracker.Apps.ViewModels
                 Description = desc
             };
         }
-        
+
         public async Task UpdateTokens(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)

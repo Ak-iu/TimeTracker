@@ -34,14 +34,13 @@ namespace TimeTracker.Apps.Modele
         public string Id { get; set; }
 
         public ICommand DeleteCommand { get; set; }
-        public ICommand AddTacheCommand { get; set; }
+   
         
         public ICommand SelectCommand { get; set; }
 
-        public Projet(ICommand delete, ICommand addTache,ICommand select)
+        public Projet(ICommand delete,ICommand select)
         {
             DeleteCommand = delete;
-            AddTacheCommand = addTache;
             SelectCommand = select;
         }
 

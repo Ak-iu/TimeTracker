@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using Storm.Mvvm;
 using System.Text;
+using System.Windows.Input;
 
 namespace TimeTracker.Apps.Modeles
 {
     public class Tache : NotifierBase
     {
         private string _nom;
-        private Guid _id;
+        private string _id;
         private List<Time> _times;
 
-        public string Nom { 
-            get => _nom;
-            set => SetProperty(ref _nom, value);
-        }
-        public Guid Id { get; }
-        public List<Time> Times {
-            get => _times;
-            set => SetProperty(ref _times, value);
-        }
-
-        public Tache(string nom)
+        public string Nom { get; set; }
+        public string Id { get; set; }
+        public List<Time> Times { get; set; }
+        
+        public ICommand SelectCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+        
+        public Tache(ICommand delete,ICommand select)
         {
-            _nom = nom;
+            DeleteCommand = delete;
+            SelectCommand = select;
         }
         
         public TimeSpan GetTotalTimes()

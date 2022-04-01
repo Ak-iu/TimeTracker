@@ -2,19 +2,67 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TimeTracker.Apps.ViewModels;assembly=TimeTracker.Apps"
+             xmlns:modeles="clr-namespace:TimeTracker.Apps.Modeles;assembly=TimeTracker.Apps"
              Title="{Binding ProjectName}"
+             x:DataType="viewModels:TaskViewModel"
              x:Class="TimeTracker.Apps.Pages.TaskPage">
-    <ContentPage.Content>
-        <StackLayout>
-            
-            
-            <Label Text="{Binding ProjectDesc}"
-                   FontSize="25"
-                   HorizontalOptions="CenterAndExpand" />
-            
-            
-            
-            
-        </StackLayout>
-    </ContentPage.Content>
+
+    <ContentPage.Resources>
+        <DataTemplate x:DataType="modeles:Tache" x:Key="TacheTemplate">
+            <ViewCell>
+                <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
+
+                    <Grid ColumnDefinitions="*,100">
+                        <Label Grid.Column="0" Text="{Binding Nom}"
+                               FontSize="25"
+                               VerticalTextAlignment="Center"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding SelectCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Button Grid.Column="1"
+                                Text="Delete" FontSize="Small"
+                                TextColor="White"
+                                BackgroundColor="DarkRed"
+                                CornerRadius="15"
+                                HeightRequest="40"
+                                VerticalOptions="Center"
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding .}"
+                                Margin="5" />
+                    </Grid>
+                </StackLayout>
+            </ViewCell>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+
+    <StackLayout>
+        <Label Text="{Binding ProjectDesc}"
+               FontSize="25"
+               HorizontalOptions="CenterAndExpand" />
+        
+        <Grid RowDefinitions="*,Auto,Auto,Auto" Margin="12,0,12,48">
+            <ListView ItemsSource="{Binding Taches}"
+                      Grid.Row="0"
+                      HasUnevenRows="True"
+                      ItemTemplate="{StaticResource TacheTemplate}" />
+
+
+            <Button Text="New Task" TextColor="White"
+                    CornerRadius="15"
+                    HeightRequest="48"
+                    Grid.Row="2"
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
+                    BackgroundColor="#088da5"
+                    Command="{Binding AddCommand}" />
+        </Grid>
+        
+
+    </StackLayout>
+
 </ContentPage>
