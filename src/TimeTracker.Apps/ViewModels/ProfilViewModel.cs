@@ -29,7 +29,7 @@ namespace TimeTracker.Apps.ViewModels
         private ICommand _setFirstName;
         private ICommand _setLastName;
         private ICommand _setPassword;
-        
+
         public String _error_code;
         public String _infos;
 
@@ -44,6 +44,7 @@ namespace TimeTracker.Apps.ViewModels
             _setLastName = new Command(SetLastNameAction);
             _setPassword = new Command(SetPasswordAction);
         }
+
         public String ErrorCode
         {
             get => _error_code;
@@ -96,30 +97,64 @@ namespace TimeTracker.Apps.ViewModels
 
         private async void SetEmailAction(object o)
         {
-            string newEmail = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new email address:");
-            await user.Me(accessToken, newEmail, FirstName, LastName);
-            await UpdateTokens(await authentication.Refresh(refreshToken));
-            await GetUserInfos();
+            string newEmail =
+                await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new email address:");
+            if (newEmail != "")
+            {
+                await user.Me(accessToken, newEmail, FirstName, LastName);
+                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await GetUserInfos();
+            }
         }
 
         private async void SetFirstNameAction()
         {
-            string newFirstName = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new first name address:");
-            await user.Me(accessToken, Email, newFirstName, LastName);
-            await UpdateTokens(await authentication.Refresh(refreshToken));
-            await GetUserInfos();
+            String newFirstName =
+                await Application.Current.MainPage.DisplayPromptAsync("Edit your information",
+                    "new first name address:");
+            if (newFirstName != "")
+            {
+                await user.Me(accessToken, Email, newFirstName, LastName);
+                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await GetUserInfos();
+            }
         }
 
         private async void SetLastNameAction()
         {
-            string newLastName = await Application.Current.MainPage.DisplayPromptAsync("Edit your informations", "new last name address:");
-            await user.Me(accessToken, Email, FirstName, newLastName);
-            await UpdateTokens(await authentication.Refresh(refreshToken));
-            await GetUserInfos();
+            string newLastName =
+                await Application.Current.MainPage.DisplayPromptAsync("Edit your information",
+                    "new last name address:");
+            if (newLastName != "")
+            {
+                await user.Me(accessToken, Email, FirstName, newLastName);
+                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await GetUserInfos();
+            }
         }
 
-        private void SetPasswordAction()
+        private async void SetPasswordAction()
         {
+            string oldPassword =
+                await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "old password:");
+            string newPassword =
+                await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new password:");
+            HttpResponseMessage response = await authentication.Password(accessToken, oldPassword, newPassword);
+
+            JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            if (response.IsSuccessStatusCode)
+            {
+                if ((bool) json.SelectToken("is_success") == true)
+                {
+                    Infos = "Password modified.";
+                    ErrorCode = "";
+                }
+                else if ((bool) json.SelectToken("is_success") == false)
+                {
+                    ErrorCode = json.SelectToken("error_code")?.ToString();
+                    Infos = "";
+                }
+            }
         }
 
         public async Task GetUserInfos()
@@ -146,13 +181,13 @@ namespace TimeTracker.Apps.ViewModels
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                
+
                 if ((bool) json.SelectToken("is_success"))
                 {
                     accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
                     refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
                     ErrorCode = "";
-                    Infos = "User informations has been modified.";
+                    Infos = "User information has been modified.";
                 }
             }
             else

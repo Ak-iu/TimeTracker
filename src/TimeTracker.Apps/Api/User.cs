@@ -22,8 +22,7 @@ namespace TimeTracker.Apps.Api
         public async Task<HttpResponseMessage> Me(string accessToken, string email, string firsName, string lastName)
         {
             var client = new HttpClient();
-            var request =
-                new HttpRequestMessage(new HttpMethod("PATCH"), "https://timetracker.julienmialon.ovh/api/v1/me");
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), "https://timetracker.julienmialon.ovh/api/v1/me");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             JObject jsonData = new JObject(
