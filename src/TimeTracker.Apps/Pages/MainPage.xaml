@@ -6,7 +6,8 @@
                        xmlns:modele="clr-namespace:TimeTracker.Apps.Modele;assembly=TimeTracker.Apps"
                        xmlns:viewModels="clr-namespace:TimeTracker.Apps.ViewModels;assembly=TimeTracker.Apps"
                        x:DataType="viewModels:MainViewModel"
-                       x:Class="TimeTracker.Apps.Pages.MainPage">
+                       x:Class="TimeTracker.Apps.Pages.MainPage"
+                       Title="Projects">
 
     <ContentPage.Resources>
         <DataTemplate x:DataType="modele:Projet" x:Key="ProjetTemplate">
