@@ -28,18 +28,18 @@ namespace TimeTracker.Apps.Modele
             set => SetProperty(ref _description, value);
         }
 
-        private Guid _id;
-        public Guid Id { get; }
+        private string _id;
+        public string Id { get; set; }
 
         public ICommand DeleteCommand { get; set; }
         public ICommand AddTacheCommand { get; set; }
 
-        public Projet(string nom, string description,ICommand delete, ICommand addTache)
+        public Projet(string id,string nom, string description,ICommand delete, ICommand addTache)
         {
-            _nom = nom;
-            _description = description;
-            _taches = new List<Tache>();
-            _id = Guid.NewGuid();
+            Nom = nom;
+            Description = description;
+            Taches = new List<Tache>();
+            Id = id;
             DeleteCommand = delete;
             AddTacheCommand = addTache;
         }

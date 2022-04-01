@@ -20,7 +20,8 @@ namespace TimeTracker.Apps.ViewModels
     { 
         public ICommand _loginCommand;
         public ICommand _registerCommand;
-
+        //TODO
+        //delete test logs
         public String _email = "akiura1";
         public String _firstName;
         public String _lastName;
