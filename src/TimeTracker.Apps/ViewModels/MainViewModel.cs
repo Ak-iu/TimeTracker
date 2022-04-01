@@ -26,10 +26,7 @@ namespace TimeTracker.Apps.ViewModels
         private string refreshToken;
 
         private ObservableCollection<Projet> _projets;
-
-
-        public ICommand _profilCommand;
-        public ICommand _addCommand;
+        
 
 
         public ObservableCollection<Projet> Projets
@@ -40,8 +37,8 @@ namespace TimeTracker.Apps.ViewModels
 
         public ICommand ProfilCommand
         {
-            get => _profilCommand;
-            set => SetProperty(ref _profilCommand, value);
+            get;
+            set;
         }
 
         public ICommand AddCommand
@@ -49,6 +46,8 @@ namespace TimeTracker.Apps.ViewModels
             get;
             set;
         }
+
+        
 
         public MainViewModel(string _accessToken, string _refreshToken)
         {
@@ -66,8 +65,6 @@ namespace TimeTracker.Apps.ViewModels
             INavigationService navigationService = DependencyService.Get<INavigationService>();
             navigationService.PushAsync(new ProfilPage(accessToken, refreshToken));
         }
-
-
         private async void AddProjectAction()
         {
             string name =
@@ -75,10 +72,14 @@ namespace TimeTracker.Apps.ViewModels
             string description =
                 await Application.Current.MainPage.DisplayPromptAsync("New project", "Project's description:");
 
-            await projects.addProject(accessToken, name, description);
-            await UpdateTokens(await authentication.Refresh(refreshToken));
-            GetProjects();
+            if (name != "" && description != "")
+            {
+                await projects.addProject(accessToken, name, description);
+                await UpdateTokens(await authentication.Refresh(refreshToken));
+                GetProjects();
+            }
         }
+        
         
         private async void DeleteAction(Projet projet)
         {
@@ -91,8 +92,12 @@ namespace TimeTracker.Apps.ViewModels
         {
            
         }
-        
-        
+
+        private void SelectAction(Projet obj)
+        {
+            INavigationService navigationService = DependencyService.Get<INavigationService>();
+            navigationService.PushAsync(new TaskPage(accessToken,refreshToken,obj) );
+        }
         
         
         
@@ -132,7 +137,8 @@ namespace TimeTracker.Apps.ViewModels
         {
             return new Projet(
                 new Command<Projet>(DeleteAction),
-                new Command<Projet>(AddTacheAction)
+                new Command<Projet>(AddTacheAction),
+                new Command<Projet>(SelectAction)
             )
             {
                 Id = id,

@@ -35,11 +35,14 @@ namespace TimeTracker.Apps.Modele
 
         public ICommand DeleteCommand { get; set; }
         public ICommand AddTacheCommand { get; set; }
+        
+        public ICommand SelectCommand { get; set; }
 
-        public Projet(ICommand delete, ICommand addTache)
+        public Projet(ICommand delete, ICommand addTache,ICommand select)
         {
             DeleteCommand = delete;
             AddTacheCommand = addTache;
+            SelectCommand = select;
         }
 
         public TimeSpan getTotalTimes()
@@ -51,22 +54,7 @@ namespace TimeTracker.Apps.Modele
             }
             return totalTimes;
         }
-
-        private Command selectCommand;
-
-        public ICommand SelectCommand
-        {
-            get
-            {
-                if (selectCommand == null)
-                {
-                    selectCommand = new Command(Select);
-                }
-
-                return selectCommand;
-            }
-        }
-
+        
         private void Select()
         {
         }

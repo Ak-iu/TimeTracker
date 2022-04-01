@@ -18,8 +18,7 @@ namespace TimeTracker.Apps.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     { 
-        public ICommand _loginCommand;
-        public ICommand _registerCommand;
+    
         //TODO
         //delete test logs
         public String _email = "akiura1";
@@ -33,12 +32,14 @@ namespace TimeTracker.Apps.ViewModels
 
         public ICommand LoginCommand
         {
-            get => _loginCommand;
+            get;
+            set;
         }
 
         public ICommand RegisterCommand
         {
-            get => _registerCommand;
+            get;
+            set;
         }
 
         public string Email
@@ -79,8 +80,8 @@ namespace TimeTracker.Apps.ViewModels
 
         public LoginViewModel()
         {
-            _registerCommand = new Command(RegisterAction);
-            _loginCommand = new Command(LoginAction);
+            RegisterCommand = new Command(RegisterAction);
+            LoginCommand = new Command(LoginAction);
         }
 
         private async void LoginAction(object o)
