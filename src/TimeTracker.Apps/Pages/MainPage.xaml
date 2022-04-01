@@ -3,7 +3,7 @@
 <forms:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
-                       xmlns:modele="clr-namespace:TimeTracker.Apps.Modele;assembly=TimeTracker.Apps"
+                       xmlns:modele="clr-namespace:TimeTracker.Apps.Modeles;assembly=TimeTracker.Apps"
                        xmlns:viewModels="clr-namespace:TimeTracker.Apps.ViewModels;assembly=TimeTracker.Apps"
                        x:DataType="viewModels:MainViewModel"
                        x:Class="TimeTracker.Apps.Pages.MainPage"

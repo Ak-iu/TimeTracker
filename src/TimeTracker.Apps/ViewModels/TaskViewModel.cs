@@ -8,7 +8,6 @@ using Microcharts.Forms;
 using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
 using TimeTracker.Apps.Api;
-using TimeTracker.Apps.Modele;
 using TimeTracker.Apps.Modeles;
 using Xamarin.Forms;
 

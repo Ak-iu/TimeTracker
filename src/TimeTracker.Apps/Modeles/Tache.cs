@@ -23,6 +23,7 @@ namespace TimeTracker.Apps.Modeles
         {
             DeleteCommand = delete;
             SelectCommand = select;
+            Times = new List<Time>();
         }
         
         public TimeSpan GetTotalTimes()

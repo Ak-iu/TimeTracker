@@ -6,7 +6,7 @@ using Storm.Mvvm;
 using TimeTracker.Apps.Modeles;
 using Xamarin.Forms;
 
-namespace TimeTracker.Apps.Modele
+namespace TimeTracker.Apps.Modeles
 {
     public class Projet : NotifierBase
     {
@@ -42,14 +42,15 @@ namespace TimeTracker.Apps.Modele
         {
             DeleteCommand = delete;
             SelectCommand = select;
+            Taches = new List<Tache>();
         }
 
         public TimeSpan getTotalTimes()
         {
-            TimeSpan totalTimes = TimeSpan.Zero;
-            foreach (Tache t in _taches)
+            var totalTimes = TimeSpan.Zero;
+            foreach (var t in _taches)
             {
-                totalTimes.Add(t.GetTotalTimes());
+                totalTimes = totalTimes.Add(t.GetTotalTimes());
             }
             return totalTimes;
         }

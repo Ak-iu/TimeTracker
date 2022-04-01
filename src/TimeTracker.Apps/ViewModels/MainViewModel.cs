@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
 using Storm.Mvvm.Services;
 using TimeTracker.Apps.Api;
-using TimeTracker.Apps.Modele;
+using TimeTracker.Apps.Modeles;
 using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
