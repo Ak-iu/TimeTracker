@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,6 +20,7 @@ namespace TimeTracker.Apps.ViewModels
     {
         //api
         private Projects projects = new Projects();
+        private Authentication authentication = new Authentication();
 
         private string accessToken;
         private string refreshToken;
@@ -44,8 +46,8 @@ namespace TimeTracker.Apps.ViewModels
 
         public ICommand AddCommand
         {
-            get => _addCommand;
-            set => SetProperty(ref _addCommand, value);
+            get;
+            set;
         }
 
         public MainViewModel(string _accessToken, string _refreshToken)
@@ -56,6 +58,7 @@ namespace TimeTracker.Apps.ViewModels
             GetProjects();
 
             ProfilCommand = new Command(ProfilAction);
+            AddCommand = new Command(AddProjectAction);
         }
 
         private void ProfilAction()
@@ -64,8 +67,32 @@ namespace TimeTracker.Apps.ViewModels
             navigationService.PushAsync(new ProfilPage(accessToken, refreshToken));
         }
 
-        private async void GetProjects()
+
+        private async void AddProjectAction()
         {
+            
+        }
+        
+        private async void DeleteAction(Projet projet)
+        {
+            Console.WriteLine("delete " + projet.Nom);
+            await projects.deleteProject(accessToken, projet.Id);
+            await UpdateTokens(await authentication.Refresh(refreshToken));
+            GetProjects();
+        }
+        private void AddTacheAction(Projet obj)
+        {
+           
+        }
+        
+        
+        
+        
+        
+        
+        private async void GetProjects()
+        {   
+            Projets.Clear();
             HttpResponseMessage response = await projects.getProjects(accessToken);
             if (response != null && response.IsSuccessStatusCode)
             {
@@ -106,16 +133,19 @@ namespace TimeTracker.Apps.ViewModels
                 Description = desc
             };
         }
-
-        private void AddTacheAction(Projet obj)
-        {
-           
-        }
         
-
-        private void DeleteAction(Projet projet)
+        public async Task UpdateTokens(HttpResponseMessage response)
         {
-            Console.WriteLine("delete " + projet.Nom);
+            if (response.IsSuccessStatusCode)
+            {
+                JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                if ((bool) json.SelectToken("is_success"))
+                {
+                    accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
+                    refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
+                }
+            }
         }
     }
 }

@@ -13,5 +13,13 @@ namespace TimeTracker.Apps.Api
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             return await client.SendAsync(request);
         }
+
+        public async Task<HttpResponseMessage> deleteProject(string accessToken, string id)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+id);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            return await client.SendAsync(request);
+        }
     }
 }
