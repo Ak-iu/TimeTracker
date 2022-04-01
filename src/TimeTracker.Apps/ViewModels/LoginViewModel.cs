@@ -91,10 +91,10 @@ namespace TimeTracker.Apps.ViewModels
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                if ((bool) json.SelectToken("is_success") == true)
+                if ((bool) json.SelectToken("is_success"))
                 {
-                    String accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
-                    String refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
+                    string accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
+                    string refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
 
                     ErrorCode = "";
                     Infos = "Connected.";

@@ -11,9 +11,10 @@ namespace TimeTracker.Apps.Modele
     public class Projet : NotifierBase
     {
         private string _nom;
-        public string Nom { 
-            get => _nom; 
-            set => SetProperty(ref _nom, value); 
+        public string Nom
+        {
+            get;
+            set;
         }
 
         private List<Tache> _taches;
@@ -23,9 +24,10 @@ namespace TimeTracker.Apps.Modele
         }
 
         private string _description;
-        public string Description { 
-            get => _description;
-            set => SetProperty(ref _description, value);
+        public string Description
+        {
+            get;
+            set;
         }
 
         private string _id;
@@ -34,12 +36,8 @@ namespace TimeTracker.Apps.Modele
         public ICommand DeleteCommand { get; set; }
         public ICommand AddTacheCommand { get; set; }
 
-        public Projet(string id,string nom, string description,ICommand delete, ICommand addTache)
+        public Projet(ICommand delete, ICommand addTache)
         {
-            Nom = nom;
-            Description = description;
-            Taches = new List<Tache>();
-            Id = id;
             DeleteCommand = delete;
             AddTacheCommand = addTache;
         }
