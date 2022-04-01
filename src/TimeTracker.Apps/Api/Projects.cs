@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace TimeTracker.Apps.Api
 {
@@ -19,6 +21,20 @@ namespace TimeTracker.Apps.Api
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+id);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            return await client.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> addProject(string accessToken,string name, string description)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            
+            JObject jsonData = new JObject(
+                new JProperty("name", name),
+                new JProperty("description", description));
+            var content = new StringContent(jsonData.ToString(), Encoding.UTF8, "application/json");
+            request.Content = content;
             return await client.SendAsync(request);
         }
     }

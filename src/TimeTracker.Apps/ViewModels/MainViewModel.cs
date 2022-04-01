@@ -70,7 +70,14 @@ namespace TimeTracker.Apps.ViewModels
 
         private async void AddProjectAction()
         {
-            
+            string name =
+                await Application.Current.MainPage.DisplayPromptAsync("New project", "Project's name:");
+            string description =
+                await Application.Current.MainPage.DisplayPromptAsync("New project", "Project's description:");
+
+            await projects.addProject(accessToken, name, description);
+            await UpdateTokens(await authentication.Refresh(refreshToken));
+            GetProjects();
         }
         
         private async void DeleteAction(Projet projet)
