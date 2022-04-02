@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microcharts;
-using Microcharts.Forms;
 using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
+using Storm.Mvvm.Services;
 using TimeTracker.Apps.Api;
 using TimeTracker.Apps.Modeles;
+using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
 
 namespace TimeTracker.Apps.ViewModels
@@ -22,7 +22,6 @@ namespace TimeTracker.Apps.ViewModels
         private string accessToken;
         private string refreshToken;
         private Projet projet;
-        private ChartView chartView;
         
         public TaskViewModel(string _accessToken, string _refreshToken,Projet _projet)
         {
@@ -36,36 +35,17 @@ namespace TimeTracker.Apps.ViewModels
             ProjectDesc = projet.Description;
             
             AddCommand = new Command(AddTacheAction);
-            
-            var entries = new ChartEntry[projet.Taches.Count];
-            var i = 0;
-            foreach (var task in projet.Taches)
-            {
-                var totalTimes = task.GetTotalTimes();
-                entries[i] = new ChartEntry(totalTimes.Ticks)
-                {
-                    Label = task.Nom,
-                    ValueLabel = totalTimes.Days + "d " + totalTimes.Hours + "h " 
-                                 + totalTimes.Minutes + "m " 
-                                 + totalTimes.Seconds + "s"
-                };
-                i++;
-            }
-
-            Chart = new ChartView()
-            {
-                Chart = new PieChart {Entries = entries}
-            };
+            ChartCommand = new Command(ChartAction);
         }
 
         private ObservableCollection<Tache> _taches;
         public ObservableCollection<Tache> Taches { get; set; }
         
         public ICommand AddCommand { get; set; }
+        
+        public ICommand ChartCommand { get; set; }
         public string ProjectName { get; set; }
         public string ProjectDesc { get; set; }
-        
-        public ChartView Chart { get; set; }
 
         public async void SelectAction(Tache tache)
         {
@@ -146,6 +126,12 @@ namespace TimeTracker.Apps.ViewModels
                     refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
                 }
             }
+        }
+
+        private void ChartAction()
+        {
+            INavigationService navigationService = DependencyService.Get<INavigationService>();
+            navigationService.PushAsync(new ChartPage(projet));
         }
     }
 }

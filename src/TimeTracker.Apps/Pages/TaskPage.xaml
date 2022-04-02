@@ -60,6 +60,14 @@
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
                     BackgroundColor="#088da5"
                     Command="{Binding AddCommand}" />
+            
+            <Button Text="See Chart" TextColor="White"
+                    CornerRadius="15"
+                    HeightRequest="48"
+                    Grid.Row="3"
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Gray"
+                    Command="{Binding ChartCommand}" />
         </Grid>
         
 

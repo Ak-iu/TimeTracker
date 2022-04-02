@@ -13,8 +13,8 @@ namespace TimeTracker.Apps.Modeles
         private string _nom;
         public string Nom
         {
-            get;
-            set;
+            get => _nom;
+            set => SetProperty(ref _nom, value);
         }
 
         private List<Tache> _taches;
@@ -26,12 +26,17 @@ namespace TimeTracker.Apps.Modeles
         private string _description;
         public string Description
         {
-            get;
-            set;
+            get => _description;
+            set => SetProperty(ref _description, value);
         }
 
         private string _id;
-        public string Id { get; set; }
+
+        public string Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
 
         public ICommand DeleteCommand { get; set; }
    
@@ -45,7 +50,7 @@ namespace TimeTracker.Apps.Modeles
             Taches = new List<Tache>();
         }
 
-        public TimeSpan getTotalTimes()
+        public TimeSpan GetTotalTimes()
         {
             var totalTimes = TimeSpan.Zero;
             foreach (var t in _taches)
@@ -53,10 +58,6 @@ namespace TimeTracker.Apps.Modeles
                 totalTimes = totalTimes.Add(t.GetTotalTimes());
             }
             return totalTimes;
-        }
-        
-        private void Select()
-        {
         }
     }
 }
