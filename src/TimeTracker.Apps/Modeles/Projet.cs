@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Storm.Mvvm;
-using TimeTracker.Apps.Modeles;
-using Xamarin.Forms;
 
 namespace TimeTracker.Apps.Modeles
 {

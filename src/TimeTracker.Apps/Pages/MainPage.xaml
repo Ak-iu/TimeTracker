@@ -44,7 +44,7 @@
 
 
     <StackLayout x:Class="TimeTracker.Apps.Pages.MainPage">
-        <Grid RowDefinitions="*,Auto,Auto,Auto" Margin="12,0,12,48">
+        <Grid RowDefinitions="*,Auto,Auto,Auto,Auto" Margin="12,0,12,48">
             <ListView ItemsSource="{Binding Projets}"
                       Grid.Row="0"
                       HasUnevenRows="True"
@@ -64,10 +64,20 @@
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
                     BackgroundColor="#088da5"
                     Command="{Binding AddCommand}" />
-            <Button Text="Profil" TextColor="White"
+            
+            <Button Text="Projects Chart" TextColor="White"
                     CornerRadius="15"
                     HeightRequest="48"
                     Grid.Row="3"
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Gray"
+                    Command="{Binding ChartCommand}" />
+
+        
+            <Button Text="Profil" TextColor="White"
+                    CornerRadius="15"
+                    HeightRequest="48"
+                    Grid.Row="4"
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
                     BackgroundColor="Gray"
                     Command="{Binding ProfilCommand}" />

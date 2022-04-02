@@ -35,7 +35,8 @@ namespace TimeTracker.Apps.ViewModels
         public ICommand ProfilCommand { get; set; }
 
         public ICommand AddCommand { get; set; }
-
+        
+        public ICommand ChartCommand { get; set; }
 
         public MainViewModel(string _accessToken, string _refreshToken)
         {
@@ -46,6 +47,7 @@ namespace TimeTracker.Apps.ViewModels
 
             ProfilCommand = new Command(ProfilAction);
             AddCommand = new Command(AddProjectAction);
+            ChartCommand = new Command(ChartAction);
         }
 
         private void ProfilAction()
@@ -140,6 +142,12 @@ namespace TimeTracker.Apps.ViewModels
                     refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
                 }
             }
+        }
+        
+        private void ChartAction()
+        {
+            var navigationService = DependencyService.Get<INavigationService>();
+            navigationService.PushAsync(new ChartPage(Projets));
         }
     }
 }
