@@ -56,7 +56,7 @@
                     Grid.Row="1"
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
                     BackgroundColor="Purple"
-                    Command="{Binding }" />
+                    Command="{Binding TimerCommand}" />
             <Button Text="New Project" TextColor="White"
                     CornerRadius="15"
                     HeightRequest="48"

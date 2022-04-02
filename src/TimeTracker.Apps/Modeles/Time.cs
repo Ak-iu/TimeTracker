@@ -7,6 +7,7 @@ namespace TimeTracker.Apps.Modeles
     {
         private DateTime _startTime;
         private DateTime _endTime;
+        public bool HasStarted;
 
         public DateTime StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
         public DateTime EndTime { get => _endTime; set => SetProperty(ref _endTime, value); }
@@ -17,11 +18,13 @@ namespace TimeTracker.Apps.Modeles
         {
             var date = DateTime.Now;
             StartTime = date;
+            HasStarted = true;
         }
 
         public void StopTimer()
         {
             EndTime = DateTime.Now;
+            HasStarted = false;
         }
     }
 }

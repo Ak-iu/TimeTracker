@@ -37,17 +37,25 @@ namespace TimeTracker.Apps.ViewModels
         
         public ICommand ChartCommand { get; set; }
 
+        public ICommand TimerCommand
+        {
+            get => _timerCommand;
+            set => SetProperty(ref _timerCommand, value);
+        }
+        private ICommand _timerCommand;
+        
         public MainViewModel(string accessToken, string refreshToken)
         {
             _globals = GlobalVariables.GetInstance();
             _globals.AccessToken = accessToken;
             _globals.RefreshToken = refreshToken;
             Projets = new ObservableCollection<Projet>();
-            //GetProjects();
+            GetProjects();
 
             ProfilCommand = new Command(ProfilAction);
             AddCommand = new Command(AddProjectAction);
             ChartCommand = new Command(ChartAction);
+            TimerCommand = new Command(StartTimerAction);
         }
 
         private void ProfilAction()
@@ -148,6 +156,14 @@ namespace TimeTracker.Apps.ViewModels
         {
             var navigationService = DependencyService.Get<INavigationService>();
             navigationService.PushAsync(new ChartPage(Projets));
+        }
+
+        private void StartTimerAction()
+        {
+            _globals.GlobalTimer = new Time();
+            _globals.GlobalTimer.StartTimer();
+            var dialogService = DependencyService.Get<IDialogService>();
+            dialogService.DisplayAlertAsync("Info", "You have started a new timer", "exit");
         }
     }
 }

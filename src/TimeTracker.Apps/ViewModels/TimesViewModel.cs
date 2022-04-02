@@ -17,7 +17,6 @@ namespace TimeTracker.Apps.ViewModels
 
         private GlobalVariables _global;
         
-        private Time _time;
         private readonly Projet _projet;
         private readonly Tache _tache;
         
@@ -40,30 +39,39 @@ namespace TimeTracker.Apps.ViewModels
             _tache = tache;
             
             Times = new ObservableCollection<Time>(tache.Times);
-            TimerCommand = new Command(StartTimerAction);
             
             TaskName = tache.Nom;
-            TimerButtonText = "Start Timer";
+
+            if (_global.GlobalTimer == null || ! _global.GlobalTimer.HasStarted)
+            {
+                TimerCommand = new Command(StartTimerAction);
+                TimerButtonText = "Start Timer";
+            }
+            else
+            {
+                TimerCommand = new Command(StopTimerAction);
+                TimerButtonText = "Stop Timer";
+            }
         }
 
         private void StartTimerAction()
         {
-            _time = new Time();
-            _time.StartTimer();
+            _global.GlobalTimer = new Time();
+            _global.GlobalTimer.StartTimer();
             TimerButtonText = "Stop Timer";
             TimerCommand = new Command(StopTimerAction);
         }
 
         private async void StopTimerAction()
         {
-            _time.StopTimer();
+            _global.GlobalTimer.StopTimer();
             TimerButtonText = "Start Timer";
             TimerCommand = new Command(StartTimerAction);
 
-            var addTime = await _projects.AddTime(_global.AccessToken, _projet.Id, _tache.Id, _time.StartTime , _time.EndTime);
+            var addTime = await _projects.AddTime(_global.AccessToken, _projet.Id, _tache.Id, _global.GlobalTimer.StartTime , _global.GlobalTimer.EndTime);
             await UpdateTokens(await _authentication.Refresh(_global.RefreshToken));
-            _tache.Times.Add(_time);
-            Times.Add(_time);
+            _tache.Times.Add(_global.GlobalTimer);
+            Times.Add(_global.GlobalTimer);
         }
         
         private async Task UpdateTokens(HttpResponseMessage response)
