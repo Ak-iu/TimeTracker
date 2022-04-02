@@ -13,10 +13,10 @@ namespace TimeTracker.Apps.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilPage : ContentPage
     {
-        public ProfilPage(string accessToken,string refreshToken)
+        public ProfilPage()
         {
             InitializeComponent();
-            BindingContext = new ProfilViewModel(accessToken, refreshToken);
+            BindingContext = new ProfilViewModel();
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TimeTracker.Apps.Api
@@ -63,6 +65,29 @@ namespace TimeTracker.Apps.Api
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            return await client.SendAsync(request);
+        }
+        
+        public async Task<HttpResponseMessage> AddTime(string accessToken, string projectId, string taskId, DateTime startTime, DateTime endTime)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId+"/times");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var jsonData = new JObject()
+            {
+                new JProperty("start_time", startTime),
+                new JProperty("end_time",endTime)
+            };
+            var content = new StringContent(jsonData.ToString(), Encoding.UTF8, "application/json");
+            request.Content = content;
+            return await client.SendAsync(request);
+        }
+        
+        public async Task<HttpResponseMessage> DeleteTime(string accessToken, string projectId, string taskId, string timeId)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId+"/times/"+timeId);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             return await client.SendAsync(request);
         }

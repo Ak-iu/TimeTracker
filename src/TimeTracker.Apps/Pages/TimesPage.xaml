@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TimeTracker.Apps.ViewModels;assembly=TimeTracker.Apps"
+             xmlns:modeles="clr-namespace:TimeTracker.Apps.Modeles;assembly=TimeTracker.Apps"
+             Title="{Binding TaskName}"
+             x:DataType="viewModels:TimesViewModel"
+             x:Class="TimeTracker.Apps.Pages.TimesPage">
+
+    <ContentPage.Resources>
+        <DataTemplate x:DataType="modeles:Time" x:Key="TimeTemplate">
+            <ViewCell>
+                <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                    <Label Text="{Binding StartTime}"
+                           FontSize="25"
+                           VerticalTextAlignment="Center"
+                           LineBreakMode="WordWrap"/>
+                    <Label Text="{Binding EndTime}"
+                           FontSize="25"
+                           VerticalTextAlignment="Center"
+                           LineBreakMode="WordWrap"/>
+                </StackLayout>
+            </ViewCell>
+        </DataTemplate>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Grid RowDefinitions="*,Auto,Auto,Auto" Margin="12,0,12,48">
+                <ListView ItemsSource="{Binding Times}"
+                          Grid.Row="0"
+                          HasUnevenRows="True"
+                          ItemTemplate="{StaticResource TimeTemplate}" />
+
+
+                <Button Text="{Binding TimerButtonText}" TextColor="White"
+                        CornerRadius="15"
+                        HeightRequest="48"
+                        Grid.Row="1"
+                        FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#088da5"
+                        Command="{Binding TimerCommand}" />
+            
+            </Grid>
+        
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

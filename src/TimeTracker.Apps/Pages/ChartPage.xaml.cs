@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Microcharts;
 using SkiaSharp;
 using TimeTracker.Apps.Modeles;
@@ -31,13 +27,13 @@ namespace TimeTracker.Apps.Pages
             SKColor.Parse("#333333"),
         };
 
-        public ChartPage(Projet projet)
+        public ChartPage(string projectName, Collection<Tache> taches)
         {
             InitializeComponent();
-            Title.Text = projet.Nom + " tasks chart";
-            var entries = new ChartEntry[projet.Taches.Count];
+            Title.Text = projectName + " tasks chart";
+            var entries = new ChartEntry[taches.Count];
             var i = 0;
-            foreach (var task in projet.Taches)
+            foreach (var task in taches)
             {
                 var totalTimes = task.GetTotalTimes();
                 entries[i] = new ChartEntry(totalTimes.Ticks)

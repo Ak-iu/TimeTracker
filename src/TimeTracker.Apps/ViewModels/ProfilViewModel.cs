@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
 using Storm.Mvvm.Services;
 using TimeTracker.Apps.Api;
+using TimeTracker.Apps.Modeles;
 using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
 
@@ -18,8 +19,7 @@ namespace TimeTracker.Apps.ViewModels
         private User user = new User();
         private Authentication authentication = new Authentication();
 
-        private string accessToken;
-        private string refreshToken;
+        private GlobalVariables _global;
 
         private string _email;
         private string _firstName;
@@ -33,10 +33,9 @@ namespace TimeTracker.Apps.ViewModels
         public String _error_code;
         public String _infos;
 
-        public ProfilViewModel(string _accessToken, string _refreshToken)
+        public ProfilViewModel()
         {
-            accessToken = _accessToken;
-            refreshToken = _refreshToken;
+            _global = GlobalVariables.GetInstance();
 
             GetUserInfos();
             _setEmail = new Command(SetEmailAction);
@@ -101,8 +100,8 @@ namespace TimeTracker.Apps.ViewModels
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new email address:");
             if (newEmail != "")
             {
-                await user.Me(accessToken, newEmail, FirstName, LastName);
-                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await user.Me(_global.AccessToken, newEmail, FirstName, LastName);
+                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -114,8 +113,8 @@ namespace TimeTracker.Apps.ViewModels
                     "new first name address:");
             if (newFirstName != "")
             {
-                await user.Me(accessToken, Email, newFirstName, LastName);
-                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await user.Me(_global.AccessToken, Email, newFirstName, LastName);
+                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -127,8 +126,8 @@ namespace TimeTracker.Apps.ViewModels
                     "new last name address:");
             if (newLastName != "")
             {
-                await user.Me(accessToken, Email, FirstName, newLastName);
-                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await user.Me(_global.AccessToken, Email, FirstName, newLastName);
+                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -139,7 +138,7 @@ namespace TimeTracker.Apps.ViewModels
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "old password:");
             string newPassword =
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new password:");
-            HttpResponseMessage response = await authentication.Password(accessToken, oldPassword, newPassword);
+            HttpResponseMessage response = await authentication.Password(_global.AccessToken, oldPassword, newPassword);
 
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
             if (response.IsSuccessStatusCode)
@@ -159,7 +158,7 @@ namespace TimeTracker.Apps.ViewModels
 
         public async Task GetUserInfos()
         {
-            HttpResponseMessage response = await user.Me(accessToken);
+            HttpResponseMessage response = await user.Me(_global.AccessToken);
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -184,8 +183,8 @@ namespace TimeTracker.Apps.ViewModels
 
                 if ((bool) json.SelectToken("is_success"))
                 {
-                    accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
-                    refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
+                    _global.AccessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
+                    _global.RefreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
                     ErrorCode = "";
                     Infos = "User information has been modified.";
                 }

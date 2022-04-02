@@ -22,8 +22,7 @@ namespace TimeTracker.Apps.ViewModels
         private Projects projects = new Projects();
         private Authentication authentication = new Authentication();
 
-        private string accessToken;
-        private string refreshToken;
+        private GlobalVariables _globals;
 
         private ObservableCollection<Projet> _projets;
 
@@ -38,12 +37,13 @@ namespace TimeTracker.Apps.ViewModels
         
         public ICommand ChartCommand { get; set; }
 
-        public MainViewModel(string _accessToken, string _refreshToken)
+        public MainViewModel(string accessToken, string refreshToken)
         {
-            accessToken = _accessToken;
-            refreshToken = _refreshToken;
+            _globals = GlobalVariables.GetInstance();
+            _globals.AccessToken = accessToken;
+            _globals.RefreshToken = refreshToken;
             Projets = new ObservableCollection<Projet>();
-            GetProjects();
+            //GetProjects();
 
             ProfilCommand = new Command(ProfilAction);
             AddCommand = new Command(AddProjectAction);
@@ -53,7 +53,7 @@ namespace TimeTracker.Apps.ViewModels
         private void ProfilAction()
         {
             INavigationService navigationService = DependencyService.Get<INavigationService>();
-            navigationService.PushAsync(new ProfilPage(accessToken, refreshToken));
+            navigationService.PushAsync(new ProfilPage());
         }
 
         private async void AddProjectAction()
@@ -65,8 +65,8 @@ namespace TimeTracker.Apps.ViewModels
 
             if (name != "" && description != "")
             {
-                await projects.addProject(accessToken, name, description);
-                await UpdateTokens(await authentication.Refresh(refreshToken));
+                await projects.addProject(_globals.AccessToken, name, description);
+                await UpdateTokens(await authentication.Refresh(_globals.RefreshToken));
                 GetProjects();
             }
         }
@@ -75,21 +75,21 @@ namespace TimeTracker.Apps.ViewModels
         private async void DeleteAction(Projet projet)
         {
             Console.WriteLine("delete " + projet.Nom);
-            await projects.deleteProject(accessToken, projet.Id);
-            await UpdateTokens(await authentication.Refresh(refreshToken));
+            await projects.deleteProject(_globals.AccessToken, projet.Id);
+            await UpdateTokens(await authentication.Refresh(_globals.RefreshToken));
             GetProjects();
         }
 
         private void SelectAction(Projet obj)
         {
             INavigationService navigationService = DependencyService.Get<INavigationService>();
-            navigationService.PushAsync(new TaskPage(accessToken, refreshToken, obj));
+            navigationService.PushAsync(new TaskPage(obj));
         }
         
         private async void GetProjects()
         {
             Projets.Clear();
-            HttpResponseMessage response = await projects.getProjects(accessToken);
+            HttpResponseMessage response = await projects.getProjects(_globals.AccessToken);
             if (response != null && response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -138,8 +138,8 @@ namespace TimeTracker.Apps.ViewModels
 
                 if ((bool) json.SelectToken("is_success"))
                 {
-                    accessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
-                    refreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
+                    _globals.AccessToken = json.SelectToken("data")?.SelectToken("access_token")?.ToString();
+                    _globals.RefreshToken = json.SelectToken("data")?.SelectToken("refresh_token")?.ToString();
                 }
             }
         }
