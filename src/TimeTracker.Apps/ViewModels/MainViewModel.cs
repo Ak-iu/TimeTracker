@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace TimeTracker.Apps.ViewModels
             _globals.AccessToken = accessToken;
             _globals.RefreshToken = refreshToken;
             Projets = new ObservableCollection<Projet>();
-            GetProjects();
+            //GetProjects();
 
             ProfilCommand = new Command(ProfilAction);
             AddCommand = new Command(AddProjectAction);
@@ -87,7 +88,7 @@ namespace TimeTracker.Apps.ViewModels
             navigationService.PushAsync(new TaskPage(obj));
         }
         
-        private async void GetProjects()
+        public async void GetProjects()
         {
             Projets.Clear();
             HttpResponseMessage response = await Projects.GetProjects(_globals.AccessToken);
@@ -116,8 +117,67 @@ namespace TimeTracker.Apps.ViewModels
             {
                 Console.WriteLine(response.StatusCode.ToString());
             }
+            GetProjectsTasks();
+        }
+        
+        public async void GetProjectsTasks()
+        {
+            foreach (var projet in _projets)
+            {
+                HttpResponseMessage response = await Projects.GetTasks(_globals.AccessToken,projet.Id);
+                if (response != null && response.IsSuccessStatusCode)
+                {
+                    JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+                    if ((bool) json.SelectToken("is_success"))
+                    {
+                        JArray projectsList =
+                            JArray.FromObject(json.SelectToken("data") ?? throw new InvalidOperationException());
+
+                        foreach (var jToken in projectsList)
+                        {
+                            var id = jToken.SelectToken("id")?.ToString();
+                            var name = jToken.SelectToken("name")?.ToString();
+                            var timesList =
+                                JArray.FromObject(jToken.SelectToken("times") ?? throw new InvalidOperationException());
+
+                            var times = new List<Time>();
+                            foreach (var jTime in timesList)
+                            {
+                                var tid = jTime.SelectToken("id")?.ToString();
+                                var start = DateTime.Parse(jTime.SelectToken("start_time")?.ToString());
+                                var end = DateTime.Parse(jTime.SelectToken("end_time")?.ToString());
+                                var time = new Time()
+                                {
+                                    StartTime = start, EndTime = end, Id = tid
+                                };
+                                times.Add(time);
+                            }
+                            projet.Taches.Add(CreateTache(id,name,times));
+                        }
+                    }
+                    else if ((bool) json.SelectToken("is_success") == false)
+                    {
+                        Console.WriteLine(json.SelectToken("error_code")?.ToString());
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(response.StatusCode.ToString());
+                }
+            }
+            
         }
 
+        private Tache CreateTache(string id,string name,List<Time> times)
+        {
+            return new Tache()
+            {
+                Id = id,
+                Nom = name,
+                Times = times
+            };
+        }
+        
         private Projet CreateProject(string id, string name, string desc)
         {
             return new Projet(
@@ -147,6 +207,7 @@ namespace TimeTracker.Apps.ViewModels
         
         private void ChartAction()
         {
+            //GetProjectsTasks();
             var navigationService = DependencyService.Get<INavigationService>();
             navigationService.PushAsync(new ChartPage(Projets));
         }

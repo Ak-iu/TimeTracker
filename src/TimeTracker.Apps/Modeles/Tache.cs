@@ -20,6 +20,11 @@ namespace TimeTracker.Apps.Modeles
             SelectCommand = select;
             Times = new List<Time>();
         }
+
+        public Tache()
+        {
+            Times = new List<Time>();
+        }
         
         public TimeSpan GetTotalTimes()
         {
