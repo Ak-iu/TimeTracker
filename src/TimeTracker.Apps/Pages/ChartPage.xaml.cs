@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Microcharts;
 using SkiaSharp;
 using TimeTracker.Apps.Modeles;
@@ -44,7 +45,7 @@ namespace TimeTracker.Apps.Pages
                 };
                 i++;
             }
-            ChartTime.Chart = new PieChart {Entries = entries};
+            ChartTime.Chart = new PieChart {Entries = entries,LabelTextSize = 25};
         }
         
         public ChartPage(Collection<Projet> projets)
@@ -55,7 +56,8 @@ namespace TimeTracker.Apps.Pages
             var i = 0;
             foreach (var projet in projets)
             {
-                var totalTimes = projet.GetTotalTimes();
+                Console.WriteLine(projet.Nom, " ", projet.TotalTime.ToString());
+                var totalTimes = projet.TotalTime;
                 entries[i] = new ChartEntry(totalTimes.Ticks)
                 {
                     Label = projet.Nom,
@@ -67,5 +69,7 @@ namespace TimeTracker.Apps.Pages
             }
             ChartTime.Chart = new PieChart {Entries = entries};
         }
+
+ 
     }
 }

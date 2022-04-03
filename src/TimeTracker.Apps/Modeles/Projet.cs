@@ -1,26 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Windows.Input;
+using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
+using TimeTracker.Apps.Api;
 
 namespace TimeTracker.Apps.Modeles
 {
     public class Projet : NotifierBase
     {
+
         private string _nom;
+
         public string Nom
         {
             get => _nom;
             set => SetProperty(ref _nom, value);
         }
+        
+        public TimeSpan TotalTime { get; set; }
 
         private List<Tache> _taches;
-        public List<Tache> Taches { 
-            get => _taches; 
+
+        public List<Tache> Taches
+        {
+            get => _taches;
             set => SetProperty(ref _taches, value);
         }
 
         private string _description;
+
         public string Description
         {
             get => _description;
@@ -36,25 +46,17 @@ namespace TimeTracker.Apps.Modeles
         }
 
         public ICommand DeleteCommand { get; set; }
-   
-        
+
+
         public ICommand SelectCommand { get; set; }
 
-        public Projet(ICommand delete,ICommand select)
+        public Projet(ICommand delete, ICommand select)
         {
             DeleteCommand = delete;
             SelectCommand = select;
             Taches = new List<Tache>();
         }
-
-        public TimeSpan GetTotalTimes()
-        {
-            var totalTimes = TimeSpan.Zero;
-            foreach (var t in _taches)
-            {
-                totalTimes = totalTimes.Add(t.GetTotalTimes());
-            }
-            return totalTimes;
-        }
+        
+        
     }
 }

@@ -205,9 +205,9 @@ namespace TimeTracker.Apps.ViewModels
             }
         }
         
-        private void ChartAction()
+        private async void ChartAction()
         {
-            //GetProjectsTasks();
+            await SetTotalTimes();
             var navigationService = DependencyService.Get<INavigationService>();
             navigationService.PushAsync(new ChartPage(Projets));
         }
@@ -218,6 +218,53 @@ namespace TimeTracker.Apps.ViewModels
             _globals.GlobalTimer.StartTimer();
             var dialogService = DependencyService.Get<IDialogService>();
             dialogService.DisplayAlertAsync("Info", "You have started a new timer", "exit");
+        }
+        
+        private async Task SetTotalTimes()
+        {
+            foreach (var project in Projets)
+            {
+                await SetProjectTotalTime(project);
+            }
+        }
+
+        public async Task SetProjectTotalTime(Projet projet)
+        {
+            var totalTimes = TimeSpan.Zero;
+    
+            HttpResponseMessage response = await Projects.GetTasks(_globals.AccessToken, projet.Id);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+                if ((bool) json.SelectToken("is_success"))
+                {
+                    JArray projectsList =
+                        JArray.FromObject(json.SelectToken("data") ?? throw new InvalidOperationException());
+
+                    foreach (var jToken in projectsList)
+                    {
+                        var timesList =
+                            JArray.FromObject(jToken.SelectToken("times") ?? throw new InvalidOperationException());
+                        var times = new List<Time>();
+                        foreach (var jTime in timesList)
+                        {
+                            var tid = jTime.SelectToken("id")?.ToString();
+                            var start = DateTime.Parse(jTime.SelectToken("start_time")?.ToString());
+                            var end = DateTime.Parse(jTime.SelectToken("end_time")?.ToString());
+                            var time = new Time()
+                            {
+                                StartTime = start, EndTime = end, Id = tid
+                            };
+                            times.Add(time);
+                        }
+                        foreach (var t in times)
+                        {
+                            totalTimes = totalTimes.Add(t.EndTime.Subtract(t.StartTime));
+                        }
+                    }
+                    projet.TotalTime = totalTimes;
+                }
+            }
         }
     }
 }
