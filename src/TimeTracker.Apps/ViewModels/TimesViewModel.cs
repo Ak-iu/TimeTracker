@@ -12,9 +12,6 @@ namespace TimeTracker.Apps.ViewModels
 {
     public class TimesViewModel : ViewModelBase
     {
-        private readonly Projects _projects = new Projects();
-        private readonly Authentication _authentication = new Authentication();
-
         private GlobalVariables _global;
         
         private readonly Projet _projet;
@@ -68,8 +65,8 @@ namespace TimeTracker.Apps.ViewModels
             TimerButtonText = "Start Timer";
             TimerCommand = new Command(StartTimerAction);
 
-            var addTime = await _projects.AddTime(_global.AccessToken, _projet.Id, _tache.Id, _global.GlobalTimer.StartTime , _global.GlobalTimer.EndTime);
-            await UpdateTokens(await _authentication.Refresh(_global.RefreshToken));
+            await Projects.AddTime(_global.AccessToken, _projet.Id, _tache.Id, _global.GlobalTimer.StartTime , _global.GlobalTimer.EndTime);
+            await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
             _tache.Times.Add(_global.GlobalTimer);
             Times.Add(_global.GlobalTimer);
         }

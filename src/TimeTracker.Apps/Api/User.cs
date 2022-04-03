@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace TimeTracker.Apps.Api
 {
-    public class User
+    public static class User
     {
-        public async Task<HttpResponseMessage> Me(string accessToken)
+        public static async Task<HttpResponseMessage> Me(string accessToken)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://timetracker.julienmialon.ovh/api/v1/me");
@@ -19,7 +17,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> Me(string accessToken, string email, string firsName, string lastName)
+        public static async Task<HttpResponseMessage> Me(string accessToken, string email, string firsName, string lastName)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), "https://timetracker.julienmialon.ovh/api/v1/me");

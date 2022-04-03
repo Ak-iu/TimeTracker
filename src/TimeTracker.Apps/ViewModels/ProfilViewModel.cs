@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
-using Storm.Mvvm.Services;
 using TimeTracker.Apps.Api;
 using TimeTracker.Apps.Modeles;
-using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
 
 namespace TimeTracker.Apps.ViewModels
 {
     public class ProfilViewModel : ViewModelBase
     {
-        private User user = new User();
-        private Authentication authentication = new Authentication();
-
         private GlobalVariables _global;
 
         private string _email;
@@ -30,8 +23,8 @@ namespace TimeTracker.Apps.ViewModels
         private ICommand _setLastName;
         private ICommand _setPassword;
 
-        public String _error_code;
-        public String _infos;
+        private string _errorCode;
+        private string _infos;
 
         public ProfilViewModel()
         {
@@ -44,13 +37,13 @@ namespace TimeTracker.Apps.ViewModels
             _setPassword = new Command(SetPasswordAction);
         }
 
-        public String ErrorCode
+        public string ErrorCode
         {
-            get => _error_code;
-            set => SetProperty(ref _error_code, value);
+            get => _errorCode;
+            set => SetProperty(ref _errorCode, value);
         }
 
-        public String Infos
+        public string Infos
         {
             get => _infos;
             set => SetProperty(ref _infos, value);
@@ -100,8 +93,8 @@ namespace TimeTracker.Apps.ViewModels
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new email address:");
             if (newEmail != "")
             {
-                await user.Me(_global.AccessToken, newEmail, FirstName, LastName);
-                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
+                await User.Me(_global.AccessToken, newEmail, FirstName, LastName);
+                await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -113,8 +106,8 @@ namespace TimeTracker.Apps.ViewModels
                     "new first name address:");
             if (newFirstName != "")
             {
-                await user.Me(_global.AccessToken, Email, newFirstName, LastName);
-                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
+                await User.Me(_global.AccessToken, Email, newFirstName, LastName);
+                await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -126,8 +119,8 @@ namespace TimeTracker.Apps.ViewModels
                     "new last name address:");
             if (newLastName != "")
             {
-                await user.Me(_global.AccessToken, Email, FirstName, newLastName);
-                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
+                await User.Me(_global.AccessToken, Email, FirstName, newLastName);
+                await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
                 await GetUserInfos();
             }
         }
@@ -138,7 +131,7 @@ namespace TimeTracker.Apps.ViewModels
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "old password:");
             string newPassword =
                 await Application.Current.MainPage.DisplayPromptAsync("Edit your information", "new password:");
-            HttpResponseMessage response = await authentication.Password(_global.AccessToken, oldPassword, newPassword);
+            HttpResponseMessage response = await Authentication.Password(_global.AccessToken, oldPassword, newPassword);
 
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
             if (response.IsSuccessStatusCode)
@@ -158,11 +151,11 @@ namespace TimeTracker.Apps.ViewModels
 
         public async Task GetUserInfos()
         {
-            HttpResponseMessage response = await user.Me(_global.AccessToken);
+            HttpResponseMessage response = await User.Me(_global.AccessToken);
             if (response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                if ((bool) json.SelectToken("is_success") == true)
+                if ((bool) json.SelectToken("is_success"))
                 {
                     Email = json.SelectToken("data")?.SelectToken("email")?.ToString();
                     FirstName = json.SelectToken("data")?.SelectToken("first_name")?.ToString();

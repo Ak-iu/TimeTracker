@@ -15,24 +15,20 @@ using Xamarin.Forms;
 namespace TimeTracker.Apps.ViewModels
 {
     public class TaskViewModel : ViewModelBase
-    {   
-        //api
-        public Projects projects = new Projects();
-        public Authentication authentication = new Authentication();
-
+    {
         private GlobalVariables _global;
         
-        private Projet projet;
+        private Projet _projet;
         
-        public TaskViewModel(Projet _projet)
+        public TaskViewModel(Projet projet)
         {
             _global = GlobalVariables.GetInstance();
-            projet = _projet;
+            this._projet = projet;
             Taches = new ObservableCollection<Tache>();
             //GetTasks();
 
-            ProjectName = projet.Nom;
-            ProjectDesc = projet.Description;
+            ProjectName = _projet.Nom;
+            ProjectDesc = _projet.Description;
             
             AddCommand = new Command(AddTacheAction);
             ChartCommand = new Command(ChartAction);
@@ -49,17 +45,14 @@ namespace TimeTracker.Apps.ViewModels
 
         public void SelectAction(Tache tache)
         {
-            /*Console.WriteLine("tache selectionne " + tache.Nom);
-            await Application.Current.MainPage.DisplayAlert("Timer","Timer is on the task : " + tache.Nom,"OK");*/
-            //TODO démarrer le timer ici + ajouté le temps depuis l'ouverture de l'app
             var navigationService = DependencyService.Get<INavigationService>();
-            navigationService.PushAsync(new TimesPage(projet,tache));
+            navigationService.PushAsync(new TimesPage(_projet,tache));
         }
 
         public async void DeleteAction(Tache tache)
         {
-            await projects.deleteTask(_global.AccessToken, projet.Id, tache.Id);
-            await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
+            await Projects.DeleteTask(_global.AccessToken, _projet.Id, tache.Id);
+            await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
             GetTasks();
         }
         
@@ -69,8 +62,8 @@ namespace TimeTracker.Apps.ViewModels
                 await Application.Current.MainPage.DisplayPromptAsync("New task", "task:");
             if (name != "")
             {
-                await projects.addTask(_global.AccessToken, projet.Id, name);
-                await UpdateTokens(await authentication.Refresh(_global.RefreshToken));
+                await Projects.AddTask(_global.AccessToken, _projet.Id, name);
+                await UpdateTokens(await Authentication.Refresh(_global.RefreshToken));
                 GetTasks();
             }
         }
@@ -78,7 +71,7 @@ namespace TimeTracker.Apps.ViewModels
         public async void GetTasks()
         {
             Taches.Clear();
-            HttpResponseMessage response = await projects.getTasks(_global.AccessToken,projet.Id);
+            HttpResponseMessage response = await Projects.GetTasks(_global.AccessToken,_projet.Id);
             if (response != null && response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -149,7 +142,7 @@ namespace TimeTracker.Apps.ViewModels
         private void ChartAction()
         {
             INavigationService navigationService = DependencyService.Get<INavigationService>();
-            navigationService.PushAsync(new ChartPage(projet.Nom,Taches));
+            navigationService.PushAsync(new ChartPage(_projet.Nom,Taches));
         }
     }
 }

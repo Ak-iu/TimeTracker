@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Storm.Mvvm;
 using Storm.Mvvm.Services;
@@ -12,16 +10,11 @@ using TimeTracker.Apps.Api;
 using TimeTracker.Apps.Modeles;
 using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace TimeTracker.Apps.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        //api
-        private Projects projects = new Projects();
-        private Authentication authentication = new Authentication();
-
         private GlobalVariables _globals;
 
         private ObservableCollection<Projet> _projets;
@@ -73,8 +66,8 @@ namespace TimeTracker.Apps.ViewModels
 
             if (name != "" && description != "")
             {
-                await projects.addProject(_globals.AccessToken, name, description);
-                await UpdateTokens(await authentication.Refresh(_globals.RefreshToken));
+                await Projects.AddProject(_globals.AccessToken, name, description);
+                await UpdateTokens(await Authentication.Refresh(_globals.RefreshToken));
                 GetProjects();
             }
         }
@@ -83,8 +76,8 @@ namespace TimeTracker.Apps.ViewModels
         private async void DeleteAction(Projet projet)
         {
             Console.WriteLine("delete " + projet.Nom);
-            await projects.deleteProject(_globals.AccessToken, projet.Id);
-            await UpdateTokens(await authentication.Refresh(_globals.RefreshToken));
+            await Projects.DeleteProject(_globals.AccessToken, projet.Id);
+            await UpdateTokens(await Authentication.Refresh(_globals.RefreshToken));
             GetProjects();
         }
 
@@ -97,7 +90,7 @@ namespace TimeTracker.Apps.ViewModels
         private async void GetProjects()
         {
             Projets.Clear();
-            HttpResponseMessage response = await projects.getProjects(_globals.AccessToken);
+            HttpResponseMessage response = await Projects.GetProjects(_globals.AccessToken);
             if (response != null && response.IsSuccessStatusCode)
             {
                 JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());

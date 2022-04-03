@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Storm.Mvvm.Forms;
+﻿using Storm.Mvvm.Forms;
 using TimeTracker.Apps.ViewModels;
 
 namespace TimeTracker.Apps.Pages

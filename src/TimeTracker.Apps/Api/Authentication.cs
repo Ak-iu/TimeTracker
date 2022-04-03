@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Xamarin.Essentials;
 
 namespace TimeTracker.Apps.Api
 {
-    public class Authentication
+    public static class Authentication
     {
-        public async Task<HttpResponseMessage> Refresh(string refreshToken)
+        public static async Task<HttpResponseMessage> Refresh(string refreshToken)
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://timetracker.julienmialon.ovh");
@@ -24,7 +22,7 @@ namespace TimeTracker.Apps.Api
             return await client.PostAsync("api/v1/refresh", content);
         }
 
-        public async Task<HttpResponseMessage> Login(string email, string password)
+        public static async Task<HttpResponseMessage> Login(string email, string password)
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://timetracker.julienmialon.ovh");
@@ -38,7 +36,7 @@ namespace TimeTracker.Apps.Api
             return await client.PostAsync("api/v1/login", content);
         }
 
-        public async Task<HttpResponseMessage> Password(string accessToken, string oldPassword, string newPassword)
+        public static async Task<HttpResponseMessage> Password(string accessToken, string oldPassword, string newPassword)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), "https://timetracker.julienmialon.ovh/api/v1/password");

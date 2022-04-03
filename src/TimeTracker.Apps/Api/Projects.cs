@@ -3,14 +3,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TimeTracker.Apps.Api
 {
-    public class Projects
+    public static class Projects
     {
-        public async Task<HttpResponseMessage> getProjects(string accessToken)
+        public static async Task<HttpResponseMessage> GetProjects(string accessToken)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://timetracker.julienmialon.ovh/api/v1/projects");
@@ -18,7 +17,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> deleteProject(string accessToken, string id)
+        public static async Task<HttpResponseMessage> DeleteProject(string accessToken, string id)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+id);
@@ -26,7 +25,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> addProject(string accessToken,string name, string description)
+        public static async Task<HttpResponseMessage> AddProject(string accessToken,string name, string description)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects");
@@ -40,7 +39,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
         
-        public async Task<HttpResponseMessage> getTasks(string accessToken,string projectId)
+        public static async Task<HttpResponseMessage> GetTasks(string accessToken,string projectId)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks");
@@ -48,10 +47,10 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> addTask(string accessToken, string projectID, string name)
+        public static async Task<HttpResponseMessage> AddTask(string accessToken, string projectId, string name)
         {
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectID+"/tasks");
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             
             JObject jsonData = new JObject(
@@ -61,7 +60,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> deleteTask(string accessToken, string projectId, string taskId)
+        public static async Task<HttpResponseMessage> DeleteTask(string accessToken, string projectId, string taskId)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId);
@@ -69,7 +68,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
         
-        public async Task<HttpResponseMessage> AddTime(string accessToken, string projectId, string taskId, DateTime startTime, DateTime endTime)
+        public static async Task<HttpResponseMessage> AddTime(string accessToken, string projectId, string taskId, DateTime startTime, DateTime endTime)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId+"/times");
@@ -84,7 +83,7 @@ namespace TimeTracker.Apps.Api
             return await client.SendAsync(request);
         }
         
-        public async Task<HttpResponseMessage> DeleteTime(string accessToken, string projectId, string taskId, string timeId)
+        public static async Task<HttpResponseMessage> DeleteTime(string accessToken, string projectId, string taskId, string timeId)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), "https://timetracker.julienmialon.ovh/api/v1/projects/"+projectId+"/tasks/"+taskId+"/times/"+timeId);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Microcharts;
 using SkiaSharp;
 using TimeTracker.Apps.Modeles;
