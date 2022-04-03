@@ -11,16 +11,27 @@
     <ContentPage.Resources>
         <DataTemplate x:DataType="modeles:Time" x:Key="TimeTemplate">
             <ViewCell>
-                <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                <Grid Padding="0,5,0,5" ColumnDefinitions="auto,*,auto" VerticalOptions="StartAndExpand">
                     <Label Text="{Binding StartTime}"
-                           FontSize="25"
+                           FontSize="22"
+                           Grid.Column="0"
                            VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Start"
                            LineBreakMode="WordWrap"/>
-                    <Label Text="{Binding EndTime}"
-                           FontSize="25"
+                    
+                    <Label Text=" - "
+                           FontSize="22"
+                           Grid.Column="1"
                            VerticalTextAlignment="Center"
+                           HorizontalOptions="Center"/>
+                    
+                    <Label Text="{Binding DurationText}"
+                           FontSize="22"
+                           Grid.Column="2"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="End"
                            LineBreakMode="WordWrap"/>
-                </StackLayout>
+                </Grid>
             </ViewCell>
         </DataTemplate>
     </ContentPage.Resources>

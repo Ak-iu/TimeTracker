@@ -10,7 +10,18 @@ namespace TimeTracker.Apps.Modeles
         public bool HasStarted;
 
         public DateTime StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
-        public DateTime EndTime { get => _endTime; set => SetProperty(ref _endTime, value); }
+
+        public DateTime EndTime
+        {
+            get => _endTime;
+            set
+            {
+                SetProperty(ref _endTime, value);
+                SetText(_endTime.Subtract(_startTime));
+            }
+        }
+
+        public string DurationText { get; set; }
         
         public string Id { get; set; }
         
@@ -25,6 +36,11 @@ namespace TimeTracker.Apps.Modeles
         {
             EndTime = DateTime.Now;
             HasStarted = false;
+        }
+
+        private void SetText(TimeSpan span)
+        {
+            DurationText = (span.Days * 24 + span.Hours) + ":" + span.Minutes.ToString("00") + ":" + span.Seconds.ToString("00");
         }
     }
 }
