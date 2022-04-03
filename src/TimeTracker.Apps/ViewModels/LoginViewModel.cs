@@ -1,30 +1,22 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using Storm.Mvvm.Services;
 using TimeTracker.Apps.Pages;
 using Xamarin.Forms;
-using System;
 using Storm.Mvvm;
-using Storm.Mvvm.Services;
 using TimeTracker.Apps.Api;
-using Xamarin.Forms;
 
 namespace TimeTracker.Apps.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     { 
-    
-        //TODO
-        //delete test logs
-        public String _email = "akiura1";
+        public String _email;
         public String _firstName;
         public String _lastName;
-        public String _password ="akiura";
+        public String _password;
 
         public String _error_code;
         public String _infos;
@@ -86,8 +78,7 @@ namespace TimeTracker.Apps.ViewModels
 
         private async void LoginAction(object o)
         {
-            Authentication authentication = new Authentication();
-            HttpResponseMessage response = await authentication.Login(Email,Password);
+            HttpResponseMessage response = await Authentication.Login(Email,Password);
         
             if (response.IsSuccessStatusCode)
             {
